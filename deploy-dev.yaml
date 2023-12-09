@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nestjs-backend-development
+spec:
+  replicas: 1
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: nestjs-backend
+      env: dev
+  template:
+    metadata:
+      labels:
+        app: nestjs-backend
+        env: dev
+    spec:
+      containers:
+      - name: nestjs-backend
+        imagePullPolicy: Always
+        image: acrassignmentcloud001.azurecr.io/nestjsbackend
+        ports:
+        - containerPort: 3009 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nestjs-backend-development
+spec:
+  selector:
+    app: nestjs-backend
+    env: dev
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3009
+  type: LoadBalancer 
